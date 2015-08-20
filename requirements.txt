@@ -1,0 +1,3 @@
+ansible
+testinfra
+pytest-xdist

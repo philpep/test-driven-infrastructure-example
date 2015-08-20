@@ -1,0 +1,16 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Install nginx, curl and tree
+      apt: pkg={{ item }} state=present
+      with_items:
+        - nginx
+        - curl
+        - tree
+
+    - name: Ensure nginx is running
+      service: name=nginx state=running
+
+    - name: Add a nice page
+      copy: content="Hello world" dest=/usr/share/nginx/html/hello.txt

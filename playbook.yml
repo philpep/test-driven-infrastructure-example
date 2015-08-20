@@ -20,7 +20,7 @@
       file: path=/srv/website state=directory
 
     - name: Add a nice page
-      copy: content="Hello world" dest=/srv/website/hello.txt
+      copy: content="Hello world" dest=/srv/website/hello_world.txt
 
   handlers:
     - name: nginx restart

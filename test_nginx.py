@@ -14,7 +14,7 @@ def test_service(Service):
 
 
 def test_website_root(File):
-    f = File("/srv/website/hello.txt")
+    f = File("/srv/website/hello_world.txt")
     assert f.exists
     assert f.content == "Hello world"
     assert f.user == "root"
@@ -24,5 +24,5 @@ def test_website_root(File):
 
 def test_website(Command):
     output = Command.check_output(
-        "curl -H 'Host: website' http://127.0.0.1/hello.txt")
+        "curl -H 'Host: website' http://127.0.0.1/hello_world.txt")
     assert output == "Hello world"

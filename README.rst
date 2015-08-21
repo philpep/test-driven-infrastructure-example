@@ -116,9 +116,13 @@ There are `three pull requests
 
 At a first look, all the patch seems corrects, but in fact they are not.
 
-- #2 will break if you deploy a new server, but works on an already provisioned one.
-- #4 will break an already provisioned server but works on a new one.
-- #3 will result to a different state between your old and new servers.
+- `#2 <https://github.com/philpep/test-driven-infrastructure-example/pull/2>`_
+  will break if you deploy a new server, but works on an already provisioned
+  one.
+- `#4 <https://github.com/philpep/test-driven-infrastructure-example/pull/4>`_
+  will break an already provisioned server but works on a new one.
+- `#3 <https://github.com/philpep/test-driven-infrastructure-example/pull/3>`_
+  will result to a different state between your old and new servers.
 
 
 Now think about your experience with infrastructure code, this is some of the

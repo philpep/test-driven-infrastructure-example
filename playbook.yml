@@ -14,7 +14,7 @@
       notify: nginx restart
 
     - name: Ensure nginx is running
-      service: name=nginx state=running
+      command: service nginx start
 
     - name: Create website root
       file: path=/srv/website state=directory

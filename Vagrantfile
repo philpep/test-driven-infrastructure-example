@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "default" do |vm|
     vm.vm.provider "docker" do |docker|
       #docker.build_dir = "."
-      docker.image = "philpep/test-driven-infrastructure-example:base"
+      docker.image = "philpep/test-driven-infrastructure-example:default"
       docker.has_ssh = true
     end
   end

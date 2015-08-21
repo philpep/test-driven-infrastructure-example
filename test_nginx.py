@@ -17,8 +17,8 @@ def test_website_root(File):
     f = File("/srv/website/hello.txt")
     assert f.exists
     assert f.content == "Hello world"
-    assert f.user == "root"
-    assert f.group == "root"
+    assert f.user == "www-data"
+    assert f.group == "www-data"
     assert f.mode == 644
 
 

@@ -19,6 +19,9 @@
     - name: Create website root
       file: path=/srv/website state=directory
 
+    - name: Set hello.txt owner/group to www-data
+      file: path=/srv/website/hello.txt owner=www-data group=www-data
+
     - name: Add a nice page
       copy: content="Hello world" dest=/srv/website/hello.txt
 

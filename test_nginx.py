@@ -4,7 +4,7 @@ testinfra_hosts = ["default", "production"]
 def test_package(Package):
     nginx = Package("nginx")
     assert nginx.is_installed
-    assert nginx.version.startswith("1.4")
+    assert nginx.version.startswith("1.8")
 
 
 def test_service(Service):

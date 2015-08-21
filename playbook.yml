@@ -2,6 +2,9 @@
 - hosts: all
   gather_facts: no
   tasks:
+    - name: Add ppa:nginx/stable repo
+      apt_repository: repo='ppa:nginx/stable'
+
     - name: Install nginx, curl and tree
       apt: pkg={{ item }} state=present
       with_items:

@@ -9,8 +9,19 @@
         - curl
         - tree
 
+    - name: Configure website
+      copy: src=website.conf dest=/etc/nginx/sites-enabled/website.conf
+      notify: nginx restart
+
     - name: Ensure nginx is running
       service: name=nginx state=running
 
+    - name: Create website root
+      file: path=/srv/website state=directory
+
     - name: Add a nice page
-      copy: content="Hello world" dest=/usr/share/nginx/html/hello.txt
+      copy: content="Hello world" dest=/srv/website/hello.txt
+
+  handlers:
+    - name: nginx restart
+      command: service nginx restart

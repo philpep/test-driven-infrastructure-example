@@ -1,0 +1,12 @@
+sudo: required
+services:
+  - docker
+language: python
+python: 2.7
+before_install:
+  - wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.deb
+  - sudo dpkg -i vagrant_1.7.4_x86_64.deb
+install:
+  - pip install tox
+script:
+  - tox

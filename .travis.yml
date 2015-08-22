@@ -6,6 +6,8 @@ python: 2.7
 before_install:
   - wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.deb
   - sudo dpkg -i vagrant_1.7.4_x86_64.deb
+  - for image in default production; do docker pull philpep/test-driven-infrastructure-example:$image; done
+  - vagrant up --no-provision --provider=docker
 install:
   - pip install tox
 script:

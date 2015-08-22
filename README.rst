@@ -30,7 +30,7 @@ alternatives that you could use on your stack.
 - Testinfra_ to run tests. Alternatives: Serverspec_, shell script.
 - Tox_ to setup the virtualenv and run vagrant and testinfra. Alternatives:
   Make, shell script.
-- Jenkins_ as CI server to run tests on pull requests.
+- Travis_ as CI server to run tests on pull requests. Alternatives: Jenkins_
 
 
 Installation
@@ -148,3 +148,4 @@ common error patterns that you have or will encounter.
 .. _Nginx: http://nginx.org/
 .. _CI: https://en.wikipedia.org/wiki/Continuous_integration
 .. _Jenkins: https://jenkins-ci.org/
+.. _Travis: https://travis-ci.org/

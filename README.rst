@@ -9,9 +9,10 @@ Requirements:
 - Easy to install
 - Easy to use
 - Speed testing
-- Usable on normal developer hardware
+- Usable on normal hardware
 - Usable on a CI server
-- Should test both full and upgrade deployment
+- Should test a full deployment (i.e. on a not yet provisioned system).
+- Should test an upgrade deployment (i.e. on an already provisioned system).
 
 
 The stack
@@ -28,8 +29,9 @@ alternatives that you could use on your stack.
   Test-Kitchen_, Beaker_, shell script.
 - Ansible_. Alternatives: Puppet_, Chef_, Salt_...
 - Testinfra_ to run tests. Alternatives: Serverspec_, shell script.
-- Tox_ to setup the virtualenv and run vagrant and testinfra. Alternatives:
+- Tox_ to setup the virtualenv_ and run vagrant and testinfra. Alternatives:
   Make, shell script.
+- Github_ as git repository and pull request review. Alternatives: Gitlab_, Gerrit_.
 - Travis_ as CI server to run tests on pull requests. Alternatives: Jenkins_
 
 
@@ -41,12 +43,9 @@ https://www.vagrantup.com/downloads
 
 To install docker see https://docs.docker.com/installation/
 
-Then install tox and requirements to build the virtualenv::
+Then install tox and requirements to build the virtualenv_::
 
     $ sudo apt-get install python-tox python-dev
-
-
-To run the full test suite just run `tox`.
 
 
 Infrastructure code
@@ -108,6 +107,23 @@ The tests are written using Testinfra_.
   provisioning.
 
 
+Before running the tests, we need to start the two containers::
+
+    $ vagrant up --no-provision --provider=docker
+
+
+Then look at the `tox config
+<https://github.com/philpep/test-driven-infrastructure-example/blob/master/tox.ini>`_ and run::
+
+    $ tox
+
+Tox will:
+
+- Setup a virtualenv_ and install dependencies from `requirements.txt <https://github.com/philpep/test-driven-infrastructure-example/blob/master/requirements.txt>`_
+- Provision with Ansible_ as specified in the `vagrant config <https://github.com/philpep/test-driven-infrastructure-example/blob/master/Vagrantfile>`_
+- Run Testinfra_ against the two docker containers
+
+
 Let's break the tests
 =====================
 
@@ -127,6 +143,50 @@ At a first look, all the patch seems corrects, but in fact they are not.
 
 Now think about your experience with infrastructure code, this is some of the
 common error patterns that you have or will encounter.
+
+
+CI Server
+=========
+
+See the `travis config
+<https://github.com/philpep/test-driven-infrastructure-example/blob/master/.travis.yml>`_
+used to test pull requests.
+
+This repository has also two Jenkins_ jobs:
+
+- https://jenkins.philpep.org/job/test-driven-infrastructure-example/ Test the master branch
+- https://jenkins.philpep.org/job/test-driven-infrastructure-example-pr/ Test
+  the pull requests using `Github pull request builder plugin
+  <https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin>`_
+
+
+Workflow
+========
+
+A normal workflow can be applied::
+
+    $ git checkout -b awesome-feature origin/master
+
+    # code, test, fix code, test...
+
+    $ git push
+
+    # Make a pull request
+
+Then when the pull request is merged and the new state applied to production
+servers, rebuild the production image and push it::
+
+    $ vagrant up --no-provision --provider=docker production
+    $ vagrant provision production
+    $ docker ps
+    CONTAINER ID        IMAGE                                              [...]
+    0164b99d5a3f        philpep/test-driven-infrastructure-example:production [...]
+    $ docker commit 0164b99d5a3f philpep/test-driven-infrastructure-example:production
+    $ docker push philpep/test-driven-infrastructure-example:production
+
+
+You could also automate this build with Jenkins_ or Travis_ when changes are
+merged in the master branch.
 
 
 .. _Docker: https://www.docker.com/
@@ -149,3 +209,7 @@ common error patterns that you have or will encounter.
 .. _CI: https://en.wikipedia.org/wiki/Continuous_integration
 .. _Jenkins: https://jenkins-ci.org/
 .. _Travis: https://travis-ci.org/
+.. _virtualenv: https://virtualenv.pypa.io/en/latest/
+.. _Gitlab: https://about.gitlab.com/
+.. _Gerrit: https://www.gerritcodereview.com/
+.. _Github: https://github.com
